@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Admin;
 
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Http\Request;
@@ -29,15 +29,15 @@ class UserController extends Controller
             'password' => 'required'
         ]);
 
+
         extract($request->except('id'));
 
         $user = new User();
         $user->name = $name;
         $user->email = $email;
-
         $user->password = bcrypt($password);
-
-        $user->save();            
+        $user->save();
+             
         return new UserResource($user);
     }
 }
