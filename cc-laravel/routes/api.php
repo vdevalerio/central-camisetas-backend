@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\Auth\LoginController;
 use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Http\Request;
@@ -18,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function ($router) {
     $router->post('login', [LoginController::class, 'login']);
+    $router->post('product', [ProductController::class, 'store']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function ($router) {
     $router->get('token', [LoginController::class, 'token']);
     $router->post('logout', [LoginController::class, 'logout']);
-
     $router->get('users', [UserController::class, 'index']);
     $router->post('users', [UserController::class, 'store']);
 });
