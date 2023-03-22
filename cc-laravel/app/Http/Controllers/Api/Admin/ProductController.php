@@ -28,7 +28,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd(1);
+        
         $validated = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required',
@@ -43,8 +43,9 @@ class ProductController extends Controller
             'vivo' => 'nullable',
             'faixa' => 'nullable',
         ]);
-
-        Product::create([$validated]);
+       
+        Product::create($validated);
+       
     }
 
     /**
