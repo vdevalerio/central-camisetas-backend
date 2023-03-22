@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -27,7 +28,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(1);
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'price' => 'required',
+            'size' => 'required',
+            'type' => 'required',
+            'model' => 'required',
+            'tissue' => 'required',
+            'color' => 'required',
+            'pocket' => 'required',
+            'collar' => 'nullable',
+            'cuff' => 'nullable',
+            'vivo' => 'nullable',
+            'faixa' => 'nullable',
+        ]);
+
+        Product::create([$validated]);
     }
 
     /**
