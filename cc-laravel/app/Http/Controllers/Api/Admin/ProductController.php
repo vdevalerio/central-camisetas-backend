@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Http\Resources\UserResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
@@ -12,7 +14,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $query = QueryBuilder::for(Product::class)
+            ->defaultSort('-id')
+            ->allowedFilters(['name', 'size'])
+            ->allowedSorts(['id', 'name', 'size']);
+
+        $products = $query->paginate(min($request->per_page ?? 50, 200));
+
+        return UserResource::collection($products);
     }
 
     /**
@@ -45,7 +54,6 @@ class ProductController extends Controller
         ]);
        
         Product::create($validated);
-       
     }
 
     /**
