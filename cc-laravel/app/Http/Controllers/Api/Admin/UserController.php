@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UserResource;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -28,13 +29,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required'],
-        ]);
+        $validated = $request->only('name', 'email', 'password');
 
         $user = new User($validated);
         $user->password = bcrypt($validated['password']);
@@ -54,14 +51,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'name' => ['sometimes', 'required', 'string'],
-            'email' => ['sometimes', 'required', 'email', Rule::unique('users')->ignore($user)],
-            'password' => ['sometimes', 'required'],
-        ]);
-
+        $validated = $request->only('name', 'email', 'password');
+        
         $user->name = $validated['name'] ?? $user->name;
         $user->email = $validated['email'] ?? $user->email;
         $user->password = isset($validated['password']) ? bcrypt($validated['password']) : $user->password;
