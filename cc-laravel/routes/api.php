@@ -21,17 +21,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['guest'])->group(function ($router) {
     $router->post('login', [LoginController::class, 'login']);
     $router->post('users', [UserController::class, 'store']);
-    $router->post('product', [ProductController::class, 'store']);
-    $router->get('product', [ProductController::class, 'index']);
+
     $router->post('stock', [StockController::class, 'store']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function ($router) {
     $router->post('logout', [LoginController::class, 'logout']);
-    
+
     $router->resource('users', UserController::class)
         ->only(['index', 'show', 'update', 'destroy'])
         ->parameters([
             'users' => 'user'
+        ]);
+
+    $router->resource('products', ProductController::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy'])
+        ->parameters([
+            'products' => 'product'
         ]);
 });

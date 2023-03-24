@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -12,7 +12,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = QueryBuilder::for(Product::class)
             ->defaultSort('-id')
@@ -21,15 +21,7 @@ class ProductController extends Controller
 
         $products = $query->paginate(min($request->per_page ?? 50, 200));
 
-        return UserResource::collection($products);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return ProductResource::collection($products);
     }
 
     /**
@@ -37,7 +29,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
         $validated = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required',
@@ -52,39 +43,56 @@ class ProductController extends Controller
             'vivo' => 'nullable',
             'faixa' => 'nullable',
         ]);
-       
-        Product::create($validated);
+
+        $product = new Product($validated);
+        $product->save();
+
+        return new ProductResource($product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        return new ProductResource($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Product $product)
     {
-        //
-    }
+        $validated = $request->validate([
+            'name' => 'sometimes|max:255',
+            'price' => 'sometimes',
+            'size' => 'sometimes',
+            'type' => 'sometimes',
+            'model' => 'sometimes',
+            'tissue' => 'sometimes',
+            'color' => 'sometimes',
+            'pocket' => 'sometimes',
+            'collar' => 'nullable',
+            'cuff' => 'nullable',
+            'vivo' => 'nullable',
+            'faixa' => 'nullable',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        foreach($request->toArray() as $key => $value)
+        {
+            if(isset($key))
+                $product[$key] = $value;
+        }
+
+        $product->save();
+
+        return new ProductResource($product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response(null, 204);
     }
 }
