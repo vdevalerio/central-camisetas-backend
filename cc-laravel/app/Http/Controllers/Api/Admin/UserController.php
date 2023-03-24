@@ -36,7 +36,7 @@ class UserController extends Controller
         $user = new User($validated);
         $user->password = bcrypt($validated['password']);
         $user->save();
-             
+
         return new UserResource($user);
     }
 
@@ -54,12 +54,12 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $validated = $request->only('name', 'email', 'password');
-        
+
         $user->name = $validated['name'] ?? $user->name;
         $user->email = $validated['email'] ?? $user->email;
         $user->password = isset($validated['password']) ? bcrypt($validated['password']) : $user->password;
         $user->save();
-             
+
         return new UserResource($user);
     }
 
@@ -71,5 +71,5 @@ class UserController extends Controller
         $user->delete();
 
         return response(null, 204);
-    }    
+    }
 }
