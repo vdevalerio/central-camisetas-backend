@@ -7,6 +7,7 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -31,7 +32,7 @@ class ProductController extends Controller
                 'cuff',
                 'vivo',
                 'faixa',
-                'price',
+                AllowedFilter::scope('price_between'),
             ])
             ->allowedSorts([
                 'id',
