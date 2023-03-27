@@ -126,7 +126,6 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-
     public function testStore()
     {
         $name = $this->faker->name;
@@ -195,5 +194,4 @@ class UserControllerTest extends TestCase
 
         $response->assertNoContent();
     }
-
 }
