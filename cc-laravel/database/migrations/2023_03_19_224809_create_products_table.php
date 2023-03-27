@@ -16,15 +16,15 @@ return new class extends Migration
             $table->string('name');
             $table->float('price', 8, 2);
             $table->string('size');
-            $table->unsignedInteger('type');
+            $table->enum('type', [1, 2, 3, 4]);
             $table->string('model');
             $table->string('tissue');
             $table->string('color');
             $table->boolean('pocket');
-            $table->unsignedInteger('collar')->nullable();
-            $table->unsignedInteger('cuff')->nullable();
+            $table->enum('collar', [1, 2, 3, 4, 5, 6])->nullable();
+            $table->enum('cuff', [1, 2, 3, 4])->nullable();
             $table->boolean('vivo')->nullable();
-            $table->unsignedInteger('faixa')->nullable();
+            $table->enum('faixa', [1, 2, 3])->nullable();
             $table->timestamps();
         });
     }
