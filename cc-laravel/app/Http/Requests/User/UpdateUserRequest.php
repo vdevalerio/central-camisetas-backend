@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -27,9 +28,31 @@ class UpdateUserRequest extends FormRequest
         $user = Route::current()->parameter('user');
 
         return [
-            'name' => ['sometimes', 'required', 'string'],
-            'email' => ['sometimes', 'required', 'email', Rule::unique('users')->ignore($user)],
-            'password' => ['sometimes', 'required'],
+          'name' => [
+            'sometimes',
+            'required',
+            'string',
+            'min:3',
+            'max:255',
+            'regex:/^[A-Za-z\s]+$/'
+          ],
+          'email' => [
+            'sometimes',
+            'email',
+            Rule::unique('users')->ignore($user)
+          ],
+          'password' => [
+            'sometimes',
+            'required',
+            'string',
+            'confirmed',
+            Password::min(6)
+              ->letters()
+              ->mixedCase()
+              ->numbers()
+              ->symbols()
+              ->uncompromised()
+          ],
         ];
     }
 }
