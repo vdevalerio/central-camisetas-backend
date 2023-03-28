@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Http\Requests\Stock\StoreStockRequest;
 use App\Http\Requests\Stock\UpdateStockRequest;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\StockResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -35,7 +35,7 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $validated = $request->only('quantity', 'product_id');
-        $stock = new Product($stock);
+        $stock = new Stock($stock);
         $stock->save();
 
         return new StockResource($stock);
