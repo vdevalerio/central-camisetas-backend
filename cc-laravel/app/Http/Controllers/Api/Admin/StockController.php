@@ -35,7 +35,7 @@ class StockController extends Controller
     public function store(StoreStockRequest $request)
     {
         $validated = $request->only('quantity', 'product_id');
-        $stock = new Stock($stock);
+        $stock = new Stock($validated);
         $stock->save();
 
         return new StockResource($stock);
