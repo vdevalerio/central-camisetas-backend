@@ -22,7 +22,7 @@ class StoreStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'quantity' => ['required', 'integer', 'min:0'],
+          'quantity' => ['required', 'integer'],
           'product_id' => ['required', 'integer'],
         ];
     }
