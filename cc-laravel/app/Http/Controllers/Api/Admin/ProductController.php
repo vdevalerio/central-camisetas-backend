@@ -76,6 +76,7 @@ class ProductController extends Controller
         );
 
         $product = new Product($validated);
+        
         $product->save();
 
         return new ProductResource($product);
