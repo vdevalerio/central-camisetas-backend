@@ -10,6 +10,49 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string $name
+ * @property float $price
+ * @property string $size
+ * @property string $type
+ * @property string $model
+ * @property string $tissue
+ * @property string $color
+ * @property int $pocket
+ * @property string|null $collar
+ * @property string|null $cuff
+ * @property int|null $vivo
+ * @property string|null $faixa
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $collar_formatted
+ * @property-read mixed $cuff_formatted
+ * @property-read mixed $faixa_formatted
+ * @property-read mixed $type_formatted
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static Builder|Product priceBetween($range)
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereCollar($value)
+ * @method static Builder|Product whereColor($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereCuff($value)
+ * @method static Builder|Product whereFaixa($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereModel($value)
+ * @method static Builder|Product whereName($value)
+ * @method static Builder|Product wherePocket($value)
+ * @method static Builder|Product wherePrice($value)
+ * @method static Builder|Product whereSize($value)
+ * @method static Builder|Product whereTissue($value)
+ * @method static Builder|Product whereType($value)
+ * @method static Builder|Product whereUpdatedAt($value)
+ * @method static Builder|Product whereVivo($value)
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     use HasFactory;
