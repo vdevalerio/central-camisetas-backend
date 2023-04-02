@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('tissue');
             $table->string('color');
             $table->boolean('pocket');
-            $table->enum('collar', [1, 2, 3, 4, 5, 6])->nullable();
+            $table->enum('collar', [1, 2, 3, 4, 5])->nullable();
             $table->enum('cuff', [1, 2, 3, 4])->nullable();
             $table->boolean('vivo')->nullable();
             $table->enum('faixa', [1, 2, 3])->nullable();
