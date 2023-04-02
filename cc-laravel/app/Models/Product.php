@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $cuff_formatted
  * @property-read mixed $faixa_formatted
  * @property-read mixed $type_formatted
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static Builder|Product newModelQuery()
  * @method static Builder|Product newQuery()
  * @method static Builder|Product priceBetween($range)
