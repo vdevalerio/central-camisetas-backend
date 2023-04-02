@@ -126,17 +126,17 @@ class UserControllerTest extends TestCase
             ]);
     }
 
-
     public function testStore()
     {
-        $name = $this->faker->name;
+        $name = $this->faker->regexify('/^[A-Za-z\s]{3,255}$/');
         $email = $this->faker->email;
-        $password = $this->faker->password;
+        $password = $this->faker->regexify('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$');
 
         $userData = [
             'name' => $name,
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'password_confirmation' => $password,
         ];
 
         $response = $this->json('POST', '/api/users', $userData);
@@ -170,19 +170,24 @@ class UserControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $newData = [
-            'name' => $this->faker->name,
-            'email' => $this->faker->email,
-            'password' => $this->faker->password
+        $name = $this->faker->regexify('/^[A-Za-z\s]{3,255}$/');
+        $email = $this->faker->email;
+        $password = $this->faker->regexify('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$');
+
+        $userData = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
         ];
 
-        $response = $this->actingAs($user)->json('PUT', '/api/users/' . $user->id, $newData);
+        $response = $this->actingAs($user)->json('PUT', '/api/users/' . $user->id, $userData);
 
         $response->assertOk()
             ->assertJson([
                 'data' => [
-                    'name' => $newData['name'],
-                    'email' => $newData['email']
+                    'name' => $userData['name'],
+                    'email' => $userData['email'],
                 ]
             ]);
     }
@@ -195,5 +200,4 @@ class UserControllerTest extends TestCase
 
         $response->assertNoContent();
     }
-
 }
