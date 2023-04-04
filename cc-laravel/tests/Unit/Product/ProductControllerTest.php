@@ -58,6 +58,20 @@ class ProductControllerTest extends TestCase
         $minPriceProduct = $products->min('price');
         $maxPriceProduct = $products->max('price');
 
+        /**
+         * TODO: test filters in combination.
+         *  The way it is now, it is testing each filter alone.
+         *  The tests should be done in combination too, for example:
+         *      Test filters alone: [id], [name], ...
+         *      Test filters in pairs: [id, name], [id, price], [id, type]
+         *      and go on until test all filters together: [
+         *          'id', 'name', 'price',
+         *          'size', 'type', 'model',
+         *          'tissue', 'color', 'pocket',
+         *          'collar', 'cuff', 'vivo', 'faixa'
+         *      ]
+         */
+
         foreach($filters as $filter)
         {
             foreach($products as $product)
