@@ -9,6 +9,7 @@ use App\Enums\ProductType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * App\Models\Product
@@ -124,5 +125,34 @@ class Product extends Model
     public function getTypeFormattedAttribute()
     {
         return self::TYPES[$this->attributes['type'] - 1];
+    }
+
+    public function getAllowedFilters()
+    {
+        return [
+            'id',
+            'name',
+            'size',
+            'type',
+            'model',
+            'tissue',
+            'color',
+            'pocket',
+            'collar',
+            'cuff',
+            'vivo',
+            'faixa',
+            AllowedFilter::scope('price_between'),
+        ];
+    }
+
+    public function getAllowedSorts()
+    {
+        return [
+            'id',
+            'name',
+            'size',
+            'price',
+        ];
     }
 }

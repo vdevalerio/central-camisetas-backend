@@ -70,4 +70,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getAllowedFilters()
+    {
+        return [
+            'id',
+            'name',
+            'email',
+        ];
+    }
+
+    public function getAllowedSorts()
+    {
+        return [
+            'id',
+            'name',
+            'email',
+        ];
+    }
 }
