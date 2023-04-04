@@ -7,7 +7,6 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -19,36 +18,8 @@ class ProductController extends Controller
     {
         $query = QueryBuilder::for(Product::class)
             ->defaultSort('-id')
-            ->allowedFilters([
-                'id',
-                'name',
-                'size',
-                'type',
-                'model',
-                'tissue',
-                'color',
-                'pocket',
-                'collar',
-                'cuff',
-                'vivo',
-                'faixa',
-                AllowedFilter::scope('price_between'),
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-                'size',
-                'type',
-                'model',
-                'tissue',
-                'color',
-                'pocket',
-                'collar',
-                'cuff',
-                'vivo',
-                'faixa',
-                'price',
-            ]);
+            ->allowedFilters((new Product)->getAllowedFilters())
+            ->allowedSorts((new Product)->getAllowedSorts());
 
         $products = $query->paginate(min($request->per_page ?? 50, 200));
 
@@ -60,22 +31,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $validated = $request->only(
-            'name',
-            'price',
-            'size',
-            'type',
-            'model',
-            'tissue',
-            'color',
-            'pocket',
-            'collar',
-            'cuff',
-            'vivo',
-            'faixa'
-        );
+        $validated = $request->only((new Product)->getFillable());
 
         $product = new Product($validated);
+
         $product->save();
 
         return new ProductResource($product);
@@ -91,20 +50,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $validated = $request->only(
-            'name',
-            'price',
-            'size',
-            'type',
-            'model',
-            'tissue',
-            'color',
-            'pocket',
-            'collar',
-            'cuff',
-            'vivo',
-            'faixa'
-        );
+        $validated = $request->only((new Product)->getFillable());
 
         foreach($validated as $key => $value)
         {

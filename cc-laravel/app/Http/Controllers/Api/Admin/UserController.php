@@ -18,8 +18,8 @@ class UserController extends Controller
     {
         $query = QueryBuilder::for(User::class)
             ->defaultSort('name')
-            ->allowedFilters(['id', 'name', 'email'])
-            ->allowedSorts(['id', 'name']);
+            ->allowedFilters((new User)->getAllowedFilters())
+            ->allowedSorts((new User)->getAllowedSorts());
 
         $users = $query->paginate(min($request->per_page ?? 50, 200));
 
@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $validated = $request->only('name', 'email', 'password');
+        $validated = $request->only((new User)->getFillable());
 
         $user = new User($validated);
         $user->password = bcrypt($validated['password']);
@@ -53,7 +53,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->only('name', 'email', 'password');
+        $validated = $request->only((new User)->getFillable());
 
         $user->name = $validated['name'] ?? $user->name;
         $user->email = $validated['email'] ?? $user->email;
